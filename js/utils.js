@@ -71,10 +71,24 @@ function calculateCentimeterjakten(catches) {
 
 /**
  * 700-tävlingen:
- * Summa av ALLA fiskars längd. Första laget till 700 cm vinner.
+ * Topp 7 gäddor + topp 4 valfria (icke-gädda), summerat.
+ * Slutar räkna vid 700 cm (cap).
  */
 function calculate700(catches) {
-  return catches.reduce((s, c) => s + c.lengthCm, 0);
+  const pike = catches
+    .filter(c => c.isPike)
+    .sort((a, b) => b.lengthCm - a.lengthCm)
+    .slice(0, 7);
+
+  const other = catches
+    .filter(c => !c.isPike)
+    .sort((a, b) => b.lengthCm - a.lengthCm)
+    .slice(0, 4);
+
+  const total = pike.reduce((s, c) => s + c.lengthCm, 0)
+              + other.reduce((s, c) => s + c.lengthCm, 0);
+
+  return Math.min(total, 700);
 }
 
 /**
