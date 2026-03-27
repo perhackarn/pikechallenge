@@ -159,9 +159,19 @@
         <td><span class="badge ${c.isPike ? 'badge-pike' : 'badge-other'}">${escapeHtml(c.speciesName)}</span></td>
         <td><strong>${c.lengthCm} cm</strong></td>
         <td>${c.isPike && c.weightGrams ? c.weightGrams + ' g' : '-'}</td>
-        <td><button class="delete-btn catch-del" data-id="${c.id}" title="Ta bort">🗑️</button></td>
+        <td>
+          <button class="delete-btn catch-edit" data-id="${c.id}" title="Redigera">✏️</button>
+          <button class="delete-btn catch-del" data-id="${c.id}" title="Ta bort">🗑️</button>
+        </td>
       </tr>
     `).join('');
+
+    tbody.querySelectorAll('.catch-edit').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const c = catches.find(x => x.id === btn.dataset.id);
+        if (c) openEditModal(c);
+      });
+    });
 
     tbody.querySelectorAll('.catch-del').forEach(btn => {
       btn.addEventListener('click', async () => {
@@ -201,4 +211,99 @@
     div.textContent = text || '';
     return div.innerHTML;
   }
+
+  // ===========================================
+  // Redigera fångst – Modal
+  // ===========================================
+  const editModal = document.getElementById('editModal');
+  const editForm = document.getElementById('editForm');
+  const editPike = document.getElementById('editPike');
+  const editOther = document.getElementById('editOther');
+  const editOtherGroup = document.getElementById('editOtherGroup');
+  const editWeightGroup = document.getElementById('editWeightGroup');
+
+  function updateEditSpeciesUI() {
+    const isPike = editPike.checked;
+    editOtherGroup.classList.toggle('hidden', isPike);
+    editWeightGroup.style.display = isPike ? '' : 'none';
+  }
+  editPike.addEventListener('change', updateEditSpeciesUI);
+  editOther.addEventListener('change', updateEditSpeciesUI);
+
+  document.getElementById('cancelEditBtn').addEventListener('click', () => {
+    editModal.classList.remove('active');
+  });
+  editModal.addEventListener('click', (e) => {
+    if (e.target === editModal) editModal.classList.remove('active');
+  });
+
+  function openEditModal(c) {
+    document.getElementById('editId').value = c.id;
+
+    // Populera medlems-dropdown
+    const memberSelect = document.getElementById('editMember');
+    memberSelect.innerHTML = teamMembers.map(m =>
+      `<option value="${m.id}" ${m.id === c.memberId ? 'selected' : ''}>${escapeHtml(m.name)}</option>`
+    ).join('');
+
+    if (c.isPike) {
+      editPike.checked = true;
+    } else {
+      editOther.checked = true;
+      document.getElementById('editSpeciesName').value = c.speciesName || '';
+    }
+    updateEditSpeciesUI();
+
+    document.getElementById('editLength').value = c.lengthCm;
+    document.getElementById('editWeight').value = c.weightGrams || '';
+    editModal.classList.add('active');
+  }
+
+  // Spara redigering
+  editForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const id = document.getElementById('editId').value;
+    const memberId = document.getElementById('editMember').value;
+    const member = teamMembers.find(m => m.id === memberId);
+    const isPike = editPike.checked;
+    const speciesName = isPike ? 'Gädda' : document.getElementById('editSpeciesName').value.trim();
+    const lengthCm = parseFloat(document.getElementById('editLength').value);
+    const weightGrams = isPike ? parseInt(document.getElementById('editWeight').value) || 0 : 0;
+
+    if (!member) { showToast('Välj en lagmedlem', 'warning'); return; }
+    if (!isPike && !speciesName) { showToast('Ange vilken art', 'warning'); return; }
+    if (!lengthCm || lengthCm <= 0) { showToast('Ange giltig längd', 'warning'); return; }
+
+    setLoading(true);
+    try {
+      await db.collection('catches').doc(id).update({
+        memberId: member.id,
+        memberName: member.name,
+        isPike: isPike,
+        speciesName: speciesName,
+        lengthCm: lengthCm,
+        weightGrams: weightGrams
+      });
+      editModal.classList.remove('active');
+      showToast('Fångst uppdaterad!', 'success');
+    } catch (err) {
+      showToast('Kunde inte uppdatera: ' + err.message, 'error');
+    }
+    setLoading(false);
+  });
+
+  // Ta bort från modal
+  document.getElementById('deleteEditBtn').addEventListener('click', async () => {
+    const id = document.getElementById('editId').value;
+    if (!confirm('Ta bort denna fångst?')) return;
+    setLoading(true);
+    try {
+      await db.collection('catches').doc(id).delete();
+      editModal.classList.remove('active');
+      showToast('Fångst borttagen', 'success');
+    } catch (err) {
+      showToast('Kunde inte ta bort: ' + err.message, 'error');
+    }
+    setLoading(false);
+  });
 })();

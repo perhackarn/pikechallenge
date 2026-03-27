@@ -124,6 +124,48 @@
     </div>
   </div>
 
+  <!-- MODAL: Redigera fångst -->
+  <div class="modal-overlay" id="editModal">
+    <div class="modal">
+      <h2>✏️ Redigera fångst</h2>
+      <form id="editForm">
+        <input type="hidden" id="editId">
+        <div class="form-group">
+          <label for="editMember">Vem fångade?</label>
+          <select id="editMember" required></select>
+        </div>
+        <div class="form-group">
+          <label>Art</label>
+          <div class="radio-group">
+            <input type="radio" name="editSpecies" id="editPike" value="pike" checked>
+            <label for="editPike">🐟 Gädda</label>
+            <input type="radio" name="editSpecies" id="editOther" value="other">
+            <label for="editOther">🐠 Annan art</label>
+          </div>
+        </div>
+        <div class="form-group hidden" id="editOtherGroup">
+          <label for="editSpeciesName">Ange art</label>
+          <input type="text" id="editSpeciesName" placeholder="T.ex. Abborre">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editLength">Längd (cm)</label>
+            <input type="number" id="editLength" required min="1" max="200" step="0.5">
+          </div>
+          <div class="form-group" id="editWeightGroup">
+            <label for="editWeight">Vikt (gram)</label>
+            <input type="number" id="editWeight" min="1" max="30000" step="1">
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" id="cancelEditBtn">Avbryt</button>
+          <button type="button" class="btn btn-danger" id="deleteEditBtn">🗑️ Ta bort</button>
+          <button type="submit" class="btn btn-primary">Spara</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <div id="toast-container"></div>
   <div id="loader"><div class="spinner"></div></div>
 
