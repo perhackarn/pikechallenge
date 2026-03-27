@@ -160,8 +160,10 @@
         <td><strong>${c.lengthCm} cm</strong></td>
         <td>${c.isPike && c.weightGrams ? c.weightGrams + ' g' : '-'}</td>
         <td>
-          <button class="delete-btn catch-edit" data-id="${c.id}" title="Redigera">✏️</button>
-          <button class="delete-btn catch-del" data-id="${c.id}" title="Ta bort">🗑️</button>
+          <div style="display:flex;gap:0.25rem;flex-wrap:nowrap;">
+            <button class="delete-btn catch-edit" data-id="${c.id}" title="Redigera">✏️</button>
+            <button class="delete-btn catch-del" data-id="${c.id}" title="Ta bort">🗑️</button>
+          </div>
         </td>
       </tr>
     `).join('');

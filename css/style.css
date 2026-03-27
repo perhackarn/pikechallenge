@@ -650,4 +650,8 @@ tbody tr:hover { background: #F8FAFC; }
   .navbar { padding: 0 1rem; }
   .navbar .brand { font-size: 1.05rem; }
   .tab-btn { padding: 0.6rem 0.8rem; font-size: 0.82rem; }
+  .table-wrap { overflow-x: visible; }
+  .table-wrap table { font-size: 0.82rem; }
+  .table-wrap th, .table-wrap td { padding: 0.4rem 0.35rem; }
+  .delete-btn { font-size: 0.95rem; padding: 0.15rem; }
 }
