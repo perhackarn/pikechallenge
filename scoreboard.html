@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pike Challenge – Resultattavla</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Extra stilar för resultattavlan */
+    .scoreboard-hero {
+      text-align: center;
+      padding: 2rem 1rem 1rem;
+    }
+    .scoreboard-hero h1 {
+      font-size: 2rem;
+      color: var(--primary-dark);
+    }
+    .scoreboard-hero p {
+      color: var(--text-sec);
+      margin-top: 0.25rem;
+    }
+    .competition-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .no-data {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+    .seven-hundred-grid {
+      display: grid;
+      gap: 1rem;
+    }
+    .seven-hundred-item {
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+      background: #F8FAFC;
+    }
+    .seven-hundred-item .team-name {
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+    }
+    .auto-refresh {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      text-align: center;
+      padding: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="brand"><span>🐟</span> Pike Challenge</div>
+    <nav>
+      <a href="index.html">Logga in</a>
+    </nav>
+  </div>
+
+  <div class="container">
+    <div class="scoreboard-hero">
+      <h1>🏆 Resultattavla</h1>
+      <p>Uppdateras i realtid</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="centimeter">📏 Centimeterjakten</button>
+      <button class="tab-btn" data-tab="seven">🎯 700</button>
+      <button class="tab-btn" data-tab="biggest">⚖️ Störst gädda</button>
+      <button class="tab-btn" data-tab="oneplusone">🔗 1+1</button>
+    </div>
+
+    <!-- Centimeterjakten -->
+    <div class="tab-content active" id="tab-centimeter">
+      <div class="competition-title">📏 Centimeterjakten</div>
+      <p class="text-sm mb-1">Topp 7 gäddor + 4 valfria fiskar per lag (längd).</p>
+      <div class="card">
+        <ul class="rank-list" id="cmRankList">
+          <li class="no-data">Laddar...</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 700 -->
+    <div class="tab-content" id="tab-seven">
+      <div class="competition-title">🎯 700</div>
+      <p class="text-sm mb-1">Första laget till 700 cm (total fångstlängd) vinner!</p>
+      <div class="card">
+        <div class="seven-hundred-grid" id="sevenGrid">
+          <div class="no-data">Laddar...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Störst gädda -->
+    <div class="tab-content" id="tab-biggest">
+      <div class="competition-title">⚖️ Störst gädda</div>
+      <p class="text-sm mb-1">Tyngsta enskilda gäddan (gram).</p>
+      <div class="card">
+        <ul class="rank-list" id="biggestRankList">
+          <li class="no-data">Laddar...</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 1+1 -->
+    <div class="tab-content" id="tab-oneplusone">
+      <div class="competition-title">🔗 1+1</div>
+      <p class="text-sm mb-1">Längsta gädda + längsta valfri art per deltagare.</p>
+      <div class="card">
+        <ul class="rank-list" id="opoRankList">
+          <li class="no-data">Laddar...</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="auto-refresh">🔄 Uppdateras automatiskt via Firebase</div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/scoreboard.js"></script>
+</body>
+</html>

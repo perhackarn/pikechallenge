@@ -1,0 +1,627 @@
+/* ===========================================
+   Pike Challenge – Stilmall
+   =========================================== */
+:root {
+  --primary: #1565C0;
+  --primary-dark: #0D47A1;
+  --primary-light: #42A5F5;
+  --accent: #FF8F00;
+  --accent-light: #FFB300;
+  --success: #2E7D32;
+  --success-light: #66BB6A;
+  --danger: #C62828;
+  --danger-light: #EF5350;
+  --bg: #EEF2F5;
+  --card: #FFFFFF;
+  --text: #1A1A2E;
+  --text-sec: #5A6478;
+  --text-light: #9EA7B3;
+  --border: #DDE2E8;
+  --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --transition: 0.2s ease;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ---------- NAVBAR ---------- */
+.navbar {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+  color: #fff;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.navbar .brand {
+  font-size: 1.25rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.navbar .brand span { font-size: 1.5rem; }
+.navbar nav { display: flex; gap: 0.5rem; align-items: center; }
+.navbar nav a,
+.navbar nav button {
+  color: rgba(255,255,255,0.85);
+  background: none;
+  border: none;
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: inherit;
+}
+.navbar nav a:hover,
+.navbar nav button:hover {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* ---------- CONTAINER ---------- */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+/* ---------- CARDS ---------- */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.card-header h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ---------- LOGIN PAGE ---------- */
+.login-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
+}
+.login-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 420px;
+}
+.login-card .logo {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.login-card .logo .icon { font-size: 3rem; }
+.login-card .logo h1 {
+  font-size: 1.6rem;
+  color: var(--primary-dark);
+  margin-top: 0.25rem;
+}
+.login-card .logo p {
+  color: var(--text-sec);
+  font-size: 0.9rem;
+}
+
+/* ---------- FORMS ---------- */
+.form-group {
+  margin-bottom: 1rem;
+}
+.form-group label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+  color: var(--text-sec);
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  font-family: inherit;
+  transition: var(--transition);
+  background: #FAFBFC;
+}
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.12);
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+/* ---------- BUTTONS ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.7rem 1.4rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--primary-dark);
+}
+.btn-full { width: 100%; }
+.btn-accent {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-accent:hover:not(:disabled) {
+  background: var(--accent-light);
+}
+.btn-success {
+  background: var(--success);
+  color: #fff;
+}
+.btn-success:hover:not(:disabled) {
+  background: var(--success-light);
+}
+.btn-danger {
+  background: var(--danger);
+  color: #fff;
+}
+.btn-danger:hover:not(:disabled) {
+  background: var(--danger-light);
+}
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--border);
+  color: var(--text-sec);
+}
+.btn-outline:hover:not(:disabled) {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.btn-sm {
+  padding: 0.35rem 0.8rem;
+  font-size: 0.82rem;
+}
+
+/* ---------- TABS ---------- */
+.tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+}
+.tab-btn {
+  padding: 0.75rem 1.2rem;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-sec);
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+  font-family: inherit;
+}
+.tab-btn:hover { color: var(--primary); }
+.tab-btn.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ---------- TABLES ---------- */
+.table-wrap { overflow-x: auto; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+thead th {
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  font-weight: 700;
+  color: var(--text-sec);
+  border-bottom: 2px solid var(--border);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+tbody td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid #F0F2F5;
+}
+tbody tr:hover { background: #F8FAFC; }
+
+/* ---------- PROGRESS BAR ---------- */
+.progress-bar {
+  background: #E8ECF0;
+  border-radius: 20px;
+  height: 28px;
+  overflow: hidden;
+  position: relative;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 20px;
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  transition: width 0.6s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #fff;
+  min-width: 2rem;
+}
+.progress-fill.reached {
+  background: linear-gradient(90deg, var(--success), var(--success-light));
+}
+
+/* ---------- BADGES ---------- */
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.badge-pike {
+  background: #E3F2FD;
+  color: var(--primary);
+}
+.badge-other {
+  background: #FFF3E0;
+  color: var(--accent);
+}
+.badge-gold {
+  background: #FFF8E1;
+  color: #F57F17;
+}
+.badge-silver {
+  background: #F5F5F5;
+  color: #616161;
+}
+.badge-bronze {
+  background: #FBE9E7;
+  color: #BF360C;
+}
+
+/* ---------- STATS GRID ---------- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.stat-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.2rem;
+  text-align: center;
+}
+.stat-card .stat-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+.stat-card .stat-label {
+  font-size: 0.82rem;
+  color: var(--text-sec);
+  font-weight: 600;
+  margin-top: 0.2rem;
+}
+.stat-card.accent .stat-value { color: var(--accent); }
+.stat-card.success .stat-value { color: var(--success); }
+
+/* ---------- MODAL ---------- */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.modal-overlay.active { display: flex; }
+.modal {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 2rem;
+}
+.modal h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+/* ---------- TEAM LIST ---------- */
+.team-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+.team-card .team-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.team-card .members {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.member-tag {
+  background: #EDF2F7;
+  padding: 0.2rem 0.65rem;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-sec);
+}
+
+/* ---------- RADIO / TOGGLE ---------- */
+.radio-group {
+  display: flex;
+  gap: 0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 2px solid var(--border);
+}
+.radio-group label {
+  flex: 1;
+  text-align: center;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-sec);
+  transition: var(--transition);
+  background: #FAFBFC;
+}
+.radio-group input { display: none; }
+.radio-group input:checked + label {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* ---------- SCOREBOARD: RANKING ---------- */
+.rank-list { list-style: none; }
+.rank-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid #F0F2F5;
+  transition: var(--transition);
+}
+.rank-item:hover { background: #F8FAFC; }
+.rank-position {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.95rem;
+  background: #EDF2F7;
+  color: var(--text-sec);
+  flex-shrink: 0;
+}
+.rank-item:nth-child(1) .rank-position {
+  background: linear-gradient(135deg, #FFD54F, #FFB300);
+  color: #5D4037;
+}
+.rank-item:nth-child(2) .rank-position {
+  background: linear-gradient(135deg, #E0E0E0, #BDBDBD);
+  color: #424242;
+}
+.rank-item:nth-child(3) .rank-position {
+  background: linear-gradient(135deg, #FFAB91, #FF7043);
+  color: #3E2723;
+}
+.rank-info { flex: 1; }
+.rank-name { font-weight: 700; font-size: 1rem; }
+.rank-detail { font-size: 0.82rem; color: var(--text-sec); }
+.rank-score {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+.rank-score small {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-sec);
+}
+
+/* ---------- 700 celebratory ---------- */
+.reached-700 {
+  background: linear-gradient(135deg, #E8F5E9, #C8E6C9) !important;
+  border: 2px solid var(--success);
+}
+.reached-700 .rank-score { color: var(--success); }
+
+/* ---------- TOAST ---------- */
+#toast-container {
+  position: fixed;
+  top: 70px;
+  right: 1rem;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.toast {
+  padding: 0.8rem 1.2rem;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: var(--shadow-lg);
+  transform: translateX(110%);
+  transition: transform 0.3s ease;
+  max-width: 340px;
+}
+.toast.show { transform: translateX(0); }
+.toast-info { background: var(--primary); }
+.toast-success { background: var(--success); }
+.toast-error { background: var(--danger); }
+.toast-warning { background: var(--accent); }
+
+/* ---------- LOADER ---------- */
+#loader {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(255,255,255,0.8);
+  z-index: 300;
+  align-items: center;
+  justify-content: center;
+}
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- EMPTY STATE ---------- */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-light);
+}
+.empty-state .icon { font-size: 3rem; margin-bottom: 0.75rem; }
+.empty-state p { font-size: 0.95rem; }
+
+/* ---------- LINKS / MISC ---------- */
+.text-center { text-align: center; }
+.mt-1 { margin-top: 1rem; }
+.mt-2 { margin-top: 1.5rem; }
+.mb-1 { margin-bottom: 1rem; }
+.gap-sm { gap: 0.5rem; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.text-sm { font-size: 0.85rem; color: var(--text-sec); }
+.text-danger { color: var(--danger); }
+
+.link-muted {
+  color: var(--text-sec);
+  font-size: 0.85rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: inherit;
+}
+.link-muted:hover { color: var(--primary); }
+
+.delete-btn {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 0.2rem;
+  transition: var(--transition);
+}
+.delete-btn:hover { color: var(--danger); }
+
+.hidden { display: none !important; }
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 600px) {
+  .container { padding: 1rem; }
+  .card { padding: 1rem; }
+  .login-card { padding: 1.5rem; }
+  .form-row { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .stat-card .stat-value { font-size: 1.5rem; }
+  .rank-item { gap: 0.6rem; padding: 0.7rem 0.5rem; }
+  .rank-score { font-size: 1.1rem; }
+  .modal { padding: 1.25rem; }
+  .navbar { padding: 0 1rem; }
+  .navbar .brand { font-size: 1.05rem; }
+  .tab-btn { padding: 0.6rem 0.8rem; font-size: 0.82rem; }
+}

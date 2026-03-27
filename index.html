@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pike Challenge – Logga in</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="login-wrapper">
+    <div class="login-card">
+      <div class="logo">
+        <div class="icon">🐟</div>
+        <h1>Pike Challenge</h1>
+        <p>Fisketävling – Realtidsresultat</p>
+      </div>
+
+      <!-- Inloggningsformulär -->
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">E-post</label>
+          <input type="email" id="email" required placeholder="namn@example.com" autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="password">Lösenord</label>
+          <input type="password" id="password" required placeholder="Ditt lösenord" autocomplete="current-password">
+        </div>
+        <button class="btn btn-primary btn-full" type="submit">Logga in</button>
+      </form>
+
+      <!-- Skapa admin-konto (visas om inget finns) -->
+      <form id="setupForm" class="hidden">
+        <p class="text-sm mb-1">Inget adminkonto finns ännu. Skapa det första kontot:</p>
+        <div class="form-group">
+          <label for="setupEmail">E-post</label>
+          <input type="email" id="setupEmail" required placeholder="admin@example.com" autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="setupPassword">Lösenord (minst 6 tecken)</label>
+          <input type="password" id="setupPassword" required minlength="6" placeholder="Välj lösenord" autocomplete="new-password">
+        </div>
+        <button class="btn btn-accent btn-full" type="submit">Skapa adminkonto</button>
+      </form>
+
+      <div class="text-center mt-1">
+        <button class="link-muted" id="toggleSetup">Första gången? Skapa adminkonto</button>
+      </div>
+      <div class="text-center mt-1">
+        <a href="scoreboard.html" class="link-muted">📊 Visa resultattavla</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+  <div id="loader"><div class="spinner"></div></div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>

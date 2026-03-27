@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pike Challenge – Admin</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="navbar">
+    <div class="brand"><span>🐟</span> Pike Challenge</div>
+    <nav>
+      <a href="scoreboard.html">Resultattavla</a>
+      <button id="logoutBtn">Logga ut</button>
+    </nav>
+  </div>
+
+  <div class="container">
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="teams">🏆 Lag</button>
+      <button class="tab-btn" data-tab="catches">🎣 Fångster</button>
+    </div>
+
+    <!-- ========== LAG-FLIKEN ========== -->
+    <div class="tab-content active" id="tab-teams">
+      <div class="card-header">
+        <h2>Registrerade lag</h2>
+        <button class="btn btn-primary btn-sm" id="addTeamBtn">+ Lägg till lag</button>
+      </div>
+      <div id="teamsList">
+        <div class="empty-state">
+          <div class="icon">🏕️</div>
+          <p>Inga lag tillagda ännu</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== FÅNGSTER-FLIKEN ========== -->
+    <div class="tab-content" id="tab-catches">
+      <div class="card-header">
+        <h2>Alla fångster</h2>
+        <div>
+          <select id="filterTeam" style="padding:0.4rem;border-radius:6px;border:2px solid var(--border);font-family:inherit;">
+            <option value="">Alla lag</option>
+          </select>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Tid</th>
+              <th>Lag</th>
+              <th>Medlem</th>
+              <th>Art</th>
+              <th>Längd</th>
+              <th>Vikt</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="catchesBody">
+            <tr><td colspan="7" class="text-center text-sm" style="padding:2rem;">Inga fångster ännu</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Lägg till lag -->
+  <div class="modal-overlay" id="teamModal">
+    <div class="modal">
+      <h2>➕ Lägg till lag</h2>
+      <form id="teamForm">
+        <div class="form-group">
+          <label for="teamName">Lagnamn</label>
+          <input type="text" id="teamName" required placeholder="T.ex. Gäddgänget">
+        </div>
+        <div class="form-group">
+          <label for="teamEmail">Lagets inloggnings-email</label>
+          <input type="email" id="teamEmail" required placeholder="lag@example.com">
+        </div>
+        <div class="form-group">
+          <label for="teamPassword">Lagets lösenord (minst 6 tecken)</label>
+          <input type="password" id="teamPassword" required minlength="6" placeholder="Välj lösenord">
+        </div>
+        <div class="form-group">
+          <label>Lagmedlemmar</label>
+          <div id="membersContainer">
+            <div class="form-group">
+              <input type="text" class="member-input" required placeholder="Namn på medlem 1">
+            </div>
+          </div>
+          <button type="button" class="btn btn-outline btn-sm" id="addMemberBtn">+ Lägg till medlem</button>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" id="cancelTeamBtn">Avbryt</button>
+          <button type="submit" class="btn btn-primary">Spara lag</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+  <div id="loader"><div class="spinner"></div></div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
