@@ -7,11 +7,11 @@
   const toggleBtn = document.getElementById('toggleSetup');
   let showSetup = false;
 
-  // Kolla om admin redan finns
+  // Kolla om admin redan finns via publikt config-dokument
   async function checkAdmin() {
     try {
-      const snap = await db.collection('users').where('role', '==', 'admin').limit(1).get();
-      if (snap.empty) {
+      const doc = await db.collection('config').doc('app').get();
+      if (!doc.exists || !doc.data().setupComplete) {
         // Ingen admin – visa setup som standard
         showSetup = true;
         loginForm.classList.add('hidden');
@@ -87,8 +87,8 @@
     setLoading(true);
     try {
       // Kontrollera att det inte redan finns en admin
-      const snap = await db.collection('users').where('role', '==', 'admin').limit(1).get();
-      if (!snap.empty) {
+      const configDoc = await db.collection('config').doc('app').get();
+      if (configDoc.exists && configDoc.data().setupComplete) {
         showToast('Det finns redan ett adminkonto. Logga in istället.', 'warning');
         setLoading(false);
         return;
@@ -97,6 +97,11 @@
       await db.collection('users').doc(cred.user.uid).set({
         email: email,
         role: 'admin',
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      // Markera att setup är klar
+      await db.collection('config').doc('app').set({
+        setupComplete: true,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
       showToast('Adminkonto skapat!', 'success');

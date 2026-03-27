@@ -19,6 +19,13 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
+    // App-konfiguration – publikt läsbar, skrivbar av den som skapar admin eller av admin
+    match /config/{docId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update, delete: if isAdmin();
+    }
+
     // Fångster – publikt läsbara, skapbara av inloggade, redigerbara av admin
     match /catches/{catchId} {
       allow read: if true;
