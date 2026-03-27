@@ -51,7 +51,7 @@ function calculateCentimeterjakten(catches) {
   const topPikeIds = new Set(topPike.map(c => c.id));
 
   const remaining = catches
-    .filter(c => !topPikeIds.has(c.id))
+    .filter(c => !c.isPike)
     .sort((a, b) => b.lengthCm - a.lengthCm);
   const topOther = remaining.slice(0, 4);
 
