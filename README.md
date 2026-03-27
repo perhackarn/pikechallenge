@@ -1,4 +1,4 @@
-# 🐟 Pike Challenge – Fisketävlingsapp
+# Pike Challenge – Fisketävlingsapp
 
 Webbapp för att hantera en fisketävling med lag- och individuella grenar. All data lagras i Firebase med realtidsuppdatering.
 

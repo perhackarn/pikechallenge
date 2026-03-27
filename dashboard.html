@@ -8,7 +8,7 @@
 </head>
 <body>
   <div class="navbar">
-    <div class="brand"><span>🐟</span> <span id="teamTitle">Pike Challenge</span></div>
+    <div class="brand"><span id="teamTitle">Pike Challenge</span></div>
     <nav>
       <a href="scoreboard.html">Resultattavla</a>
       <button id="logoutBtn">Logga ut</button>
@@ -35,7 +35,7 @@
     <!-- 700-progress -->
     <div class="card" id="progress700Card">
       <div class="card-header">
-        <h2>🎯 700-tävlingen</h2>
+        <h2>700-tävlingen</h2>
         <span id="progress700Text" class="text-sm">0 / 700 cm</span>
       </div>
       <div class="progress-bar">
@@ -46,7 +46,7 @@
     <!-- Registrera fångst -->
     <div class="card">
       <div class="card-header">
-        <h2>🎣 Registrera fångst</h2>
+        <h2>Registrera fångst</h2>
       </div>
       <form id="catchForm">
         <div class="form-group">
@@ -60,9 +60,9 @@
           <label>Art</label>
           <div class="radio-group">
             <input type="radio" name="species" id="speciesPike" value="pike" checked>
-            <label for="speciesPike">🐟 Gädda</label>
+            <label for="speciesPike">Gädda</label>
             <input type="radio" name="species" id="speciesOther" value="other">
-            <label for="speciesOther">🐠 Annan art</label>
+            <label for="speciesOther">Annan art</label>
           </div>
         </div>
 
@@ -94,14 +94,14 @@
           </div>
         </div>
 
-        <button class="btn btn-success btn-full" type="submit">✅ Registrera fångst</button>
+        <button class="btn btn-success btn-full" type="submit">Registrera fångst</button>
       </form>
     </div>
 
     <!-- Lagets fångster -->
     <div class="card">
       <div class="card-header">
-        <h2>📋 Lagets fångster</h2>
+        <h2>Lagets fångster</h2>
         <span class="text-sm" id="catchCountLabel">0 fångster</span>
       </div>
       <div class="table-wrap">
@@ -117,7 +117,7 @@
             </tr>
           </thead>
           <tbody id="teamCatches">
-            <tr><td colspan="6" class="text-center text-sm" style="padding:2rem;">Inga fångster ännu – dags att fiska! 🎣</td></tr>
+            <tr><td colspan="6" class="text-center text-sm" style="padding:2rem;">Inga fångster ännu</td></tr>
           </tbody>
         </table>
       </div>
@@ -127,7 +127,7 @@
   <!-- MODAL: Redigera fångst -->
   <div class="modal-overlay" id="editModal">
     <div class="modal">
-      <h2>✏️ Redigera fångst</h2>
+      <h2>Redigera fångst</h2>
       <form id="editForm">
         <input type="hidden" id="editId">
         <div class="form-group">
@@ -138,9 +138,9 @@
           <label>Art</label>
           <div class="radio-group">
             <input type="radio" name="editSpecies" id="editPike" value="pike" checked>
-            <label for="editPike">🐟 Gädda</label>
+            <label for="editPike">Gädda</label>
             <input type="radio" name="editSpecies" id="editOther" value="other">
-            <label for="editOther">🐠 Annan art</label>
+            <label for="editOther">Annan art</label>
           </div>
         </div>
         <div class="form-group hidden" id="editOtherGroup">
@@ -159,7 +159,7 @@
         </div>
         <div class="modal-actions">
           <button type="button" class="btn btn-outline" id="cancelEditBtn">Avbryt</button>
-          <button type="button" class="btn btn-danger" id="deleteEditBtn">🗑️ Ta bort</button>
+          <button type="button" class="btn btn-danger" id="deleteEditBtn">Ta bort</button>
           <button type="submit" class="btn btn-primary">Spara</button>
         </div>
       </form>

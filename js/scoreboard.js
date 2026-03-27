@@ -88,7 +88,7 @@
         <div class="rank-info">
           <div class="rank-name">${escapeHtml(r.teamName)} ${hasCatches ? '<span class="expand-arrow">▸</span>' : ''}</div>
           <div class="rank-detail">
-            🐟 ${r.pikeCount}/7 gäddor (${r.pikeTotal} cm) + 🐠 ${r.otherCount}/4 valfria (${r.otherTotal} cm)
+            Gäddor: ${r.pikeCount}/7 (${r.pikeTotal} cm) + Övriga: ${r.otherCount}/4 (${r.otherTotal} cm)
           </div>
         </div>
         <div class="rank-score">${r.total}<small> cm</small></div>
@@ -140,7 +140,7 @@
       return `
         <div class="seven-hundred-item ${r.reached ? 'reached-700' : ''}">
           <div class="team-name">
-            <span>${r.reached ? '🏆 ' : ''}${escapeHtml(r.teamName)}</span>
+            <span>${r.reached ? '✓ ' : ''}${escapeHtml(r.teamName)}</span>
             <span>${r.total} / 700 cm</span>
           </div>
           <div class="progress-bar">
@@ -196,7 +196,7 @@
         <div class="rank-info">
           <div class="rank-name">${escapeHtml(r.memberName)}</div>
           <div class="rank-detail">
-            ${escapeHtml(r.teamName)} · 🐟 Gädda ${r.pikeLength} cm + 🐠 ${escapeHtml(r.otherSpecies)} ${r.otherLength} cm
+            ${escapeHtml(r.teamName)} · Gädda ${r.pikeLength} cm + ${escapeHtml(r.otherSpecies)} ${r.otherLength} cm
           </div>
         </div>
         <div class="rank-score">${r.total}<small> cm</small></div>

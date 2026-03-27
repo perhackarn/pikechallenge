@@ -148,7 +148,7 @@
     document.getElementById('catchCountLabel').textContent = catches.length + ' fångster';
 
     if (catches.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="6" class="text-center text-sm" style="padding:2rem;">Inga fångster ännu – dags att fiska! 🎣</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="6" class="text-center text-sm" style="padding:2rem;">Inga fångster ännu</td></tr>';
       return;
     }
 
@@ -161,8 +161,8 @@
         <td>${c.isPike && c.weightGrams ? c.weightGrams + ' g' : '-'}</td>
         <td>
           <div style="display:flex;gap:0.25rem;flex-wrap:nowrap;">
-            <button class="delete-btn catch-edit" data-id="${c.id}" title="Redigera">✏️</button>
-            <button class="delete-btn catch-del" data-id="${c.id}" title="Ta bort">🗑️</button>
+            <button class="delete-btn catch-edit" data-id="${c.id}" title="Redigera">&#9998;</button>
+            <button class="delete-btn catch-del" data-id="${c.id}" title="Ta bort">&times;</button>
           </div>
         </td>
       </tr>
@@ -202,7 +202,7 @@
     fill.textContent = total700 + ' cm';
     if (total700 >= 700) fill.classList.add('reached');
     else fill.classList.remove('reached');
-    document.getElementById('progress700Text').textContent = total700 + ' / 700 cm' + (total700 >= 700 ? ' ✅' : '');
+    document.getElementById('progress700Text').textContent = total700 + ' / 700 cm' + (total700 >= 700 ? ' ✓' : '');
 
     // Antal
     document.getElementById('statCount').textContent = catches.length;

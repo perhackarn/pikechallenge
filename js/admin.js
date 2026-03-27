@@ -123,7 +123,7 @@
     const filterSelect = document.getElementById('filterTeam');
 
     if (snapshot.empty) {
-      list.innerHTML = '<div class="empty-state"><div class="icon">🏕️</div><p>Inga lag tillagda ännu</p></div>';
+      list.innerHTML = '<div class="empty-state"><div class="icon">—</div><p>Inga lag tillagda ännu</p></div>';
       return;
     }
 
@@ -147,8 +147,8 @@
       card.className = 'team-card';
       card.innerHTML = `
         <div class="team-name">
-          <span>🏆 ${escapeHtml(team.name)}</span>
-          <button class="delete-btn" title="Ta bort lag" data-id="${id}" data-name="${escapeHtml(team.name)}">🗑️</button>
+          <span>${escapeHtml(team.name)}</span>
+          <button class="delete-btn" title="Ta bort lag" data-id="${id}" data-name="${escapeHtml(team.name)}">&times;</button>
         </div>
         <div class="members">
           ${(team.members || []).map(m => `<span class="member-tag">${escapeHtml(m.name)}</span>`).join('')}
@@ -226,7 +226,7 @@
         <td><span class="badge ${c.isPike ? 'badge-pike' : 'badge-other'}">${escapeHtml(c.speciesName)}</span></td>
         <td>${c.lengthCm} cm</td>
         <td>${c.isPike && c.weightGrams ? c.weightGrams + ' g' : '-'}</td>
-        <td><button class="delete-btn catch-del" data-id="${c.id}" title="Ta bort">🗑️</button></td>
+        <td><button class="delete-btn catch-del" data-id="${c.id}" title="Ta bort">&times;</button></td>
       </tr>
     `).join('');
 
