@@ -117,6 +117,30 @@
 
       renderCatches(catches);
       updateStats(catches);
+    }, err => {
+      console.error('Firestore query error:', err);
+      if (err.code === 'failed-precondition') {
+        // Index saknas – visa länk till att skapa det
+        showToast('Firestore-index saknas. Kolla konsolen för länk.', 'error');
+        console.error('Skapa index via länken i felmeddelandet ovan.');
+      } else {
+        showToast('Kunde inte ladda fångster: ' + err.message, 'error');
+      }
+      // Fallback: hämta utan sortering
+      db.collection('catches')
+        .where('teamId', '==', teamId)
+        .get()
+        .then(snap => {
+          const catches = [];
+          snap.forEach(doc => catches.push({ id: doc.id, ...doc.data() }));
+          catches.sort((a, b) => {
+            const ta = a.timestamp ? (a.timestamp.toMillis ? a.timestamp.toMillis() : 0) : 0;
+            const tb = b.timestamp ? (b.timestamp.toMillis ? b.timestamp.toMillis() : 0) : 0;
+            return tb - ta;
+          });
+          renderCatches(catches);
+          updateStats(catches);
+        });
     });
 
   function renderCatches(catches) {
