@@ -62,18 +62,52 @@
       return;
     }
 
-    list.innerHTML = results.map((r, i) => `
-      <li class="rank-item">
+    list.innerHTML = results.map((r, i) => {
+      const pikeCatches = (r.pikeCatches || []);
+      const otherCatches = (r.otherCatches || []);
+      const hasCatches = pikeCatches.length > 0 || otherCatches.length > 0;
+
+      let detailHtml = '';
+      if (hasCatches) {
+        const rows = [
+          ...pikeCatches.map(c => `<tr><td><span class="badge badge-pike">Gädda</span></td><td>${c.lengthCm} cm</td><td>${c.weightGrams ? c.weightGrams + ' g' : '-'}</td><td>${escapeHtml(c.memberName)}</td></tr>`),
+          ...otherCatches.map(c => `<tr><td><span class="badge badge-other">${escapeHtml(c.speciesName)}</span></td><td>${c.lengthCm} cm</td><td>${c.weightGrams ? c.weightGrams + ' g' : '-'}</td><td>${escapeHtml(c.memberName)}</td></tr>`)
+        ];
+        detailHtml = `
+          <div class="rank-detail-panel">
+            <table>
+              <thead><tr><th>Art</th><th>Längd</th><th>Vikt</th><th>Fångad av</th></tr></thead>
+              <tbody>${rows.join('')}</tbody>
+            </table>
+          </div>`;
+      }
+
+      return `
+      <li class="rank-item ${hasCatches ? 'rank-expandable' : ''}" ${hasCatches ? 'data-expand' : ''}>
         <div class="rank-position">${i + 1}</div>
         <div class="rank-info">
-          <div class="rank-name">${escapeHtml(r.teamName)}</div>
+          <div class="rank-name">${escapeHtml(r.teamName)} ${hasCatches ? '<span class="expand-arrow">▸</span>' : ''}</div>
           <div class="rank-detail">
             🐟 ${r.pikeCount}/7 gäddor (${r.pikeTotal} cm) + 🐠 ${r.otherCount}/4 valfria (${r.otherTotal} cm)
           </div>
         </div>
         <div class="rank-score">${r.total}<small> cm</small></div>
       </li>
-    `).join('');
+      ${detailHtml}`;
+    }).join('');
+
+    // Klicka för att expandera/kollapsa
+    list.querySelectorAll('[data-expand]').forEach(item => {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', () => {
+        const panel = item.nextElementSibling;
+        if (panel && panel.classList.contains('rank-detail-panel')) {
+          panel.classList.toggle('open');
+          const arrow = item.querySelector('.expand-arrow');
+          if (arrow) arrow.textContent = panel.classList.contains('open') ? '▾' : '▸';
+        }
+      });
+    });
   }
 
   // ===========================================

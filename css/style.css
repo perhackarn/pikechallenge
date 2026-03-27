@@ -521,6 +521,32 @@ tbody tr:hover { background: #F8FAFC; }
 }
 .reached-700 .rank-score { color: var(--success); }
 
+/* ---------- EXPAND DETAIL PANEL ---------- */
+.rank-expandable:hover { background: #F0F4F8; }
+.expand-arrow {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-left: 0.3rem;
+  transition: var(--transition);
+}
+.rank-detail-panel {
+  display: none;
+  padding: 0 1rem 0.75rem 3.5rem;
+  animation: fadeIn 0.2s ease;
+}
+.rank-detail-panel.open { display: block; }
+.rank-detail-panel table { font-size: 0.85rem; }
+.rank-detail-panel thead th {
+  font-size: 0.75rem;
+  padding: 0.3rem 0.5rem;
+  border-bottom: 2px solid var(--border);
+}
+.rank-detail-panel tbody td {
+  padding: 0.35rem 0.5rem;
+  border-bottom: 1px solid #F0F2F5;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
 /* ---------- TOAST ---------- */
 #toast-container {
   position: fixed;
