@@ -31,6 +31,20 @@
       const basePath = new URL('.', window.location.href).pathname;
       const swUrl = basePath + 'firebase-messaging-sw.js';
       const registration = await navigator.serviceWorker.register(swUrl);
+      // Vänta tills service workern är aktiv
+      if (registration.installing) {
+        await new Promise(resolve => {
+          registration.installing.addEventListener('statechange', function () {
+            if (this.state === 'activated') resolve();
+          });
+        });
+      } else if (registration.waiting) {
+        await new Promise(resolve => {
+          registration.waiting.addEventListener('statechange', function () {
+            if (this.state === 'activated') resolve();
+          });
+        });
+      }
       return registration;
     } catch (err) {
       console.error('[Notifications] Service worker registration failed:', err);
