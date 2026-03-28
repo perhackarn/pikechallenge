@@ -1,16 +1,16 @@
 // ===========================================
 // Cloud Function: Skicka push-notis vid ny fångst
 // ===========================================
-const { onDocumentCreated } = require("firebase-functions/v2/firestore");
-const { initializeApp } = require("firebase-admin/app");
-const { getFirestore } = require("firebase-admin/firestore");
-const { getMessaging } = require("firebase-admin/messaging");
+const functions = require("firebase-functions");
+const admin = require("firebase-admin");
 
-initializeApp();
+admin.initializeApp();
 
-exports.onNewCatch = onDocumentCreated("catches/{catchId}", async (event) => {
-  const catchData = event.data.data();
-  if (!catchData) return;
+exports.onNewCatch = functions.firestore
+  .document("catches/{catchId}")
+  .onCreate(async (snap, context) => {
+    const catchData = snap.data();
+    if (!catchData) return null;
 
   const species = catchData.speciesName || "Okänd art";
   const length = catchData.lengthCm || 0;
@@ -21,7 +21,7 @@ exports.onNewCatch = onDocumentCreated("catches/{catchId}", async (event) => {
   const body = `${member} (${team}) registrerade en ${species} på ${length} cm`;
 
   // Hämta alla FCM-tokens
-  const db = getFirestore();
+  const db = admin.firestore();
   const tokensSnapshot = await db.collection("fcmTokens").get();
 
   if (tokensSnapshot.empty) {
@@ -56,7 +56,7 @@ exports.onNewCatch = onDocumentCreated("catches/{catchId}", async (event) => {
   const results = await Promise.allSettled(
     tokens.map(async (token) => {
       try {
-        await getMessaging().send({ ...message, token: token });
+        await admin.messaging().send({ ...message, token: token });
       } catch (err) {
         // Ta bort ogiltiga tokens
         if (
@@ -82,4 +82,5 @@ exports.onNewCatch = onDocumentCreated("catches/{catchId}", async (event) => {
 
   const successful = results.filter((r) => r.status === "fulfilled").length;
   console.log(`Notis skickad till ${successful}/${tokens.length} enheter.`);
+  return null;
 });

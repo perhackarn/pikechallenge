@@ -9,7 +9,7 @@
 
   // VAPID-nyckel – genereras i Firebase Console > Project Settings > Cloud Messaging > Web Push certificates
   // Användaren MÅSTE sätta sin egen nyckel här:
-  const VAPID_KEY = window.PIKE_VAPID_KEY || '';
+  const VAPID_KEY = window.b69Xm2wvM2CrQGspD-gmnJPqlSaT-LgDOnjnpbICFfQ || '';
 
   if (!VAPID_KEY) {
     console.warn('[Notifications] VAPID_KEY saknas. Sätt window.PIKE_VAPID_KEY innan notifications.js laddas, eller uppdatera VAPID_KEY i notifications.js.');
