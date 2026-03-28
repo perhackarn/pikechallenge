@@ -22,7 +22,15 @@
     return;
   }
 
-  const messaging = firebase.messaging();
+  console.log('[Notifications] Init. Permission:', Notification.permission);
+
+  var messaging;
+  try {
+    messaging = firebase.messaging();
+  } catch (err) {
+    console.error('[Notifications] Kunde inte initiera messaging:', err);
+    return;
+  }
 
   // Registrera service worker
   async function registerSW() {
@@ -146,22 +154,23 @@
     }
   }
 
-  // Kör vid sidladdning
-  firebase.auth().onAuthStateChanged(function (user) {
-    if (!user) {
-      // Visa knapp även för ej inloggade (t.ex. scoreboard)
-      if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
-        showNotificationButton();
-      }
-      return;
-    }
-
-    // Om redan godkänt, uppdatera token tyst
+  // Kör vid sidladdning – visa knappen direkt
+  function init() {
+    console.log('[Notifications] Init knapp. Permission:', Notification.permission);
     if (Notification.permission === 'granted') {
+      // Redan godkänt – försök uppdatera token tyst
       requestPermissionAndToken();
-    } else if (Notification.permission !== 'denied') {
-      // Visa knapp för att aktivera
+    } else if (Notification.permission === 'denied') {
+      console.log('[Notifications] Notiser blockerade av användaren.');
+    } else {
       showNotificationButton();
     }
-  });
+  }
+
+  // Vänta på att DOM:en är klar
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 })();
