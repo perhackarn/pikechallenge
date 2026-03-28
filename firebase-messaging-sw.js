@@ -33,6 +33,6 @@ self.addEventListener('notificationclick', function (event) {
   event.notification.close();
   const url = event.notification.data && event.notification.data.url
     ? event.notification.data.url
-    : '/scoreboard.html';
+    : 'scoreboard.html';
   event.waitUntil(clients.openWindow(url));
 });

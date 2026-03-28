@@ -27,7 +27,7 @@
   // Registrera service worker
   async function registerSW() {
     try {
-      const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+      const registration = await navigator.serviceWorker.register('firebase-messaging-sw.js');
       return registration;
     } catch (err) {
       console.error('[Notifications] Service worker registration failed:', err);
@@ -40,12 +40,16 @@
     const user = firebase.auth().currentUser;
     if (!user) return;
 
-    const tokenRef = firebase.firestore().collection('fcmTokens').doc(token);
-    await tokenRef.set({
-      uid: user.uid,
-      token: token,
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
+    try {
+      const tokenRef = firebase.firestore().collection('fcmTokens').doc(token);
+      await tokenRef.set({
+        uid: user.uid,
+        token: token,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    } catch (err) {
+      console.error('[Notifications] Kunde inte spara token:', err);
+    }
   }
 
   // Begär notisbehörighet och spara token
@@ -127,7 +131,13 @@
 
   // Kör vid sidladdning
   firebase.auth().onAuthStateChanged(function (user) {
-    if (!user) return;
+    if (!user) {
+      // Visa knapp även för ej inloggade (t.ex. scoreboard)
+      if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
+        showNotificationButton();
+      }
+      return;
+    }
 
     // Om redan godkänt, uppdatera token tyst
     if (Notification.permission === 'granted') {
