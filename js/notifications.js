@@ -27,7 +27,10 @@
   // Registrera service worker
   async function registerSW() {
     try {
-      const registration = await navigator.serviceWorker.register('firebase-messaging-sw.js');
+      // Bestäm bas-URL dynamiskt (fungerar på GitHub Pages och lokalt)
+      const basePath = new URL('.', window.location.href).pathname;
+      const swUrl = basePath + 'firebase-messaging-sw.js';
+      const registration = await navigator.serviceWorker.register(swUrl);
       return registration;
     } catch (err) {
       console.error('[Notifications] Service worker registration failed:', err);
