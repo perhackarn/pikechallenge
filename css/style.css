@@ -245,6 +245,14 @@ a:hover { text-decoration: underline; }
   font-size: 0.82rem;
 }
 
+/* ---------- NOTIFICATION BUTTON ---------- */
+.notification-btn {
+  font-size: 0.78rem;
+  padding: 0.3rem 0.7rem;
+  margin-left: 0.5rem;
+  white-space: nowrap;
+}
+
 /* ---------- TABS ---------- */
 .tabs {
   display: flex;

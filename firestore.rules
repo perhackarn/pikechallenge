@@ -33,6 +33,12 @@ service cloud.firestore {
       allow update, delete: if request.auth != null;
     }
 
+    // FCM-tokens – varje inloggad användare kan skriva sin egen token
+    match /fcmTokens/{tokenId} {
+      allow read: if false;
+      allow write: if request.auth != null;
+    }
+
     // Hjälpfunktion: kolla om användaren är admin
     function isAdmin() {
       return request.auth != null
