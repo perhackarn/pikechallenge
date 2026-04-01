@@ -32,6 +32,16 @@
 
   console.log('[Notifications] Init. Permission:', Notification.permission);
 
+  // Rensa app-badge när appen öppnas/kommer i förgrund
+  if (navigator.clearAppBadge) {
+    navigator.clearAppBadge().catch(function () {});
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'visible') {
+        navigator.clearAppBadge().catch(function () {});
+      }
+    });
+  }
+
   var messaging;
   try {
     messaging = firebase.messaging();

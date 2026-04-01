@@ -26,11 +26,22 @@ messaging.onBackgroundMessage(function (payload) {
     data: { url: payload.data && payload.data.url ? payload.data.url : '/scoreboard.html' }
   };
   self.registration.showNotification(title, options);
+
+  // Sätt app-badge (röd prick på ikonen) om det stöds
+  if (navigator.setAppBadge) {
+    navigator.setAppBadge().catch(function () {});
+  }
 });
 
 // Klick på notisen öppnar appen
 self.addEventListener('notificationclick', function (event) {
   event.notification.close();
+
+  // Rensa app-badge när användaren klickar på notisen
+  if (navigator.clearAppBadge) {
+    navigator.clearAppBadge().catch(function () {});
+  }
+
   const url = event.notification.data && event.notification.data.url
     ? event.notification.data.url
     : 'scoreboard.html';
