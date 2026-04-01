@@ -65,9 +65,9 @@
 <body>
   <div class="navbar">
     <div class="brand">Pike Challenge</div>
-    <nav>
+    <nav id="scoreboardNav">
       <a href="dashboard.html">Dashboard</a>
-      <a href="index.html">Logga in</a>
+      <a href="index.html" id="authLink">Logga in</a>
     </nav>
   </div>
 
@@ -140,5 +140,18 @@
   <script src="js/utils.js"></script>
   <script src="js/notifications.js"></script>
   <script src="js/scoreboard.js"></script>
+  <script>
+    auth.onAuthStateChanged(function(user) {
+      var link = document.getElementById('authLink');
+      if (user) {
+        link.textContent = 'Logga ut';
+        link.href = '#';
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          auth.signOut().then(function() { location.reload(); });
+        });
+      }
+    });
+  </script>
 </body>
 </html>
