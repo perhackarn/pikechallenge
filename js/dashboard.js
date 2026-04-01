@@ -196,13 +196,6 @@
     // 700
     const total700 = calculate700(catches);
     document.getElementById('stat700').textContent = total700;
-    const pct = Math.min(100, (total700 / 700) * 100);
-    const fill = document.getElementById('progress700Fill');
-    fill.style.width = pct + '%';
-    fill.textContent = total700 + ' cm';
-    if (total700 >= 700) fill.classList.add('reached');
-    else fill.classList.remove('reached');
-    document.getElementById('progress700Text').textContent = total700 + ' / 700 cm' + (total700 >= 700 ? ' ✓' : '');
 
     // Störst gädda
     try {
