@@ -204,8 +204,14 @@
     else fill.classList.remove('reached');
     document.getElementById('progress700Text').textContent = total700 + ' / 700 cm' + (total700 >= 700 ? ' ✓' : '');
 
-    // Antal
-    document.getElementById('statCount').textContent = catches.length;
+    // Störst gädda
+    var bigPike = calculateStorstGadda(catches);
+    document.getElementById('statBigPike').textContent = bigPike.length > 0 ? bigPike[0].weightGrams : '–';
+
+    // 1+1
+    var opoResults = calculateOnePlusOne(catches);
+    var bestOpo = opoResults.length > 0 ? opoResults[0].total : 0;
+    document.getElementById('statOpo').textContent = bestOpo;
   }
 
   function escapeHtml(text) {
