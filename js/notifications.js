@@ -16,9 +16,17 @@
     return;
   }
 
+  // Kolla om det är iOS
+  var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  var isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+
   // Kontrollera att webbläsaren stödjer notiser
   if (!('Notification' in window) || !('serviceWorker' in navigator)) {
     console.warn('[Notifications] Webbläsaren stödjer inte push-notiser.');
+    // På iOS som inte är installerad som PWA – visa installationsguide
+    if (isIOS && !isStandalone) {
+      showIOSInstallPrompt();
+    }
     return;
   }
 
@@ -151,6 +159,37 @@
     const navbar = document.querySelector('.navbar nav');
     if (navbar) {
       navbar.appendChild(btn);
+    }
+  }
+
+  // Visa iOS-installationsguide
+  function showIOSInstallPrompt() {
+    function render() {
+      if (document.getElementById('iosInstallPrompt')) return;
+      var navbar = document.querySelector('.navbar nav');
+      if (!navbar) return;
+
+      var btn = document.createElement('button');
+      btn.id = 'iosInstallPrompt';
+      btn.className = 'btn btn-outline notification-btn';
+      btn.textContent = 'Aktivera notiser';
+      btn.addEventListener('click', function () {
+        var banner = document.createElement('div');
+        banner.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#1B2A4A;color:#fff;padding:1.2rem;text-align:center;z-index:9999;font-size:0.95rem;line-height:1.5;box-shadow:0 -2px 10px rgba(0,0,0,0.3)';
+        banner.innerHTML = '<strong>F\u00f6r att f\u00e5 notiser p\u00e5 iPhone:</strong><br>' +
+          '1. Tryck p\u00e5 <strong>Dela-knappen</strong> (fyrkant med pil upp\u00e5t)<br>' +
+          '2. V\u00e4lj <strong>\u201cL\u00e4gg till p\u00e5 hemsk\u00e4rmen\u201d</strong><br>' +
+          '3. \u00d6ppna appen d\u00e4rifr\u00e5n och aktivera notiser<br><br>' +
+          '<button onclick="this.parentElement.remove()" style="background:#3B7DD8;color:#fff;border:none;padding:0.5rem 1.5rem;border-radius:6px;font-size:0.9rem;cursor:pointer">OK, jag f\u00f6rst\u00e5r</button>';
+        document.body.appendChild(banner);
+      });
+      navbar.appendChild(btn);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', render);
+    } else {
+      render();
     }
   }
 
