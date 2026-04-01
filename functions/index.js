@@ -48,6 +48,18 @@ exports.onNewCatch = functions.firestore
     data: {
       url: "/scoreboard.html",
     },
+    // Webb-push-specifikt (krävs för Safari/iOS)
+    webpush: {
+      headers: {
+        Urgency: "high",
+      },
+      notification: {
+        title: title,
+        body: body,
+        icon: "/icons/icon-192.png",
+        requireInteraction: true,
+      },
+    },
   };
 
   const staleTokens = [];
