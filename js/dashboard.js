@@ -205,13 +205,17 @@
     document.getElementById('progress700Text').textContent = total700 + ' / 700 cm' + (total700 >= 700 ? ' ✓' : '');
 
     // Störst gädda
-    var bigPike = calculateStorstGadda(catches);
-    document.getElementById('statBigPike').textContent = bigPike.length > 0 ? bigPike[0].weightGrams : '–';
+    try {
+      var bigPike = calculateStorstGadda(catches);
+      document.getElementById('statBigPike').textContent = bigPike.length > 0 ? bigPike[0].weightGrams : '–';
+    } catch (e) { console.error('Störst gädda error:', e); }
 
     // 1+1
-    var opoResults = calculateOnePlusOne(catches);
-    var bestOpo = opoResults.length > 0 ? opoResults[0].total : 0;
-    document.getElementById('statOpo').textContent = bestOpo;
+    try {
+      var opoResults = calculateOnePlusOne(catches);
+      var bestOpo = opoResults.filter(function(r) { return r.total > 0; });
+      document.getElementById('statOpo').textContent = bestOpo.length > 0 ? bestOpo[0].total : 0;
+    } catch (e) { console.error('1+1 error:', e); }
   }
 
   function escapeHtml(text) {
