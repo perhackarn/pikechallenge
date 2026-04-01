@@ -115,20 +115,12 @@
 
   // Hantera förgrunds-notiser (medan appen är öppen)
   messaging.onMessage(function (payload) {
-    const title = payload.notification.title || 'Pike Challenge';
-    const body = payload.notification.body || '';
+    var title = (payload.notification && payload.notification.title) || 'Pike Challenge';
+    var body = (payload.notification && payload.notification.body) || '';
 
-    // Visa som toast om showToast finns
+    // Visa som toast i appen (ingen extra webbnotis – service workern hanterar det)
     if (typeof showToast === 'function') {
       showToast(title + ': ' + body, 'info');
-    }
-
-    // Visa webbnotis även i förgrunden
-    if (Notification.permission === 'granted') {
-      new Notification(title, {
-        body: body,
-        icon: '/icon-192.png'
-      });
     }
   });
 
