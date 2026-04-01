@@ -120,21 +120,23 @@ function calculateOnePlusOne(catches) {
     else members[c.memberId].other.push(c);
   });
 
-  return Object.values(members).map(m => {
-    m.pike.sort((a, b) => b.lengthCm - a.lengthCm);
-    m.other.sort((a, b) => b.lengthCm - a.lengthCm);
-    const lp = m.pike[0];
-    const lo = m.other[0];
-    return {
-      memberId: m.memberId,
-      memberName: m.memberName,
-      teamName: m.teamName,
-      pikeLength: lp ? lp.lengthCm : 0,
-      otherLength: lo ? lo.lengthCm : 0,
-      otherSpecies: lo ? lo.speciesName : '-',
-      total: (lp ? lp.lengthCm : 0) + (lo ? lo.lengthCm : 0)
-    };
-  }).sort((a, b) => b.total - a.total);
+  return Object.values(members)
+    .filter(m => m.pike.length > 0 && m.other.length > 0)
+    .map(m => {
+      m.pike.sort((a, b) => b.lengthCm - a.lengthCm);
+      m.other.sort((a, b) => b.lengthCm - a.lengthCm);
+      const lp = m.pike[0];
+      const lo = m.other[0];
+      return {
+        memberId: m.memberId,
+        memberName: m.memberName,
+        teamName: m.teamName,
+        pikeLength: lp.lengthCm,
+        otherLength: lo.lengthCm,
+        otherSpecies: lo.speciesName || '-',
+        total: lp.lengthCm + lo.lengthCm
+      };
+    }).sort((a, b) => b.total - a.total);
 }
 
 // --- Auth-guard ---
