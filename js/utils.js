@@ -80,13 +80,7 @@ function calculate700(catches) {
     .sort((a, b) => b.lengthCm - a.lengthCm)
     .slice(0, 7);
 
-  const other = catches
-    .filter(c => !c.isPike)
-    .sort((a, b) => b.lengthCm - a.lengthCm)
-    .slice(0, 4);
-
-  const total = pike.reduce((s, c) => s + c.lengthCm, 0)
-              + other.reduce((s, c) => s + c.lengthCm, 0);
+  const total = pike.reduce((s, c) => s + c.lengthCm, 0);
 
   return Math.min(total, 700);
 }
