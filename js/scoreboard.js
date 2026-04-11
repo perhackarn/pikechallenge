@@ -166,16 +166,7 @@
       return;
     }
 
-    list.innerHTML = results.slice(0, 20).map((c, i) => `
-      <li class="rank-item">
-        <div class="rank-position">${i + 1}</div>
-        <div class="rank-info">
-          <div class="rank-name">${escapeHtml(c.memberName)}</div>
-          <div class="rank-detail">${escapeHtml(c.teamName)} · ${c.lengthCm} cm · ${formatTime(c.timestamp)}</div>
-        </div>
-        <div class="rank-score">${c.weightGrams}<small> g</small></div>
-      </li>
-    `).join('');
+    list.innerHTML = results.slice(0, 3).map((c, i) => `
   }
 
   // ===========================================
