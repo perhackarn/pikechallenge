@@ -655,6 +655,108 @@ tbody tr:hover { background: #F8FAFC; }
 
 .hidden { display: none !important; }
 
+/* ---------- RULES PAGE ---------- */
+.rules-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+.rules-page h1 {
+  font-size: 2rem;
+  color: var(--primary-dark);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.rules-section {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+.rules-section h2 {
+  font-size: 1.25rem;
+  color: var(--primary);
+  margin-bottom: 0.75rem;
+  border-bottom: 2px solid var(--border-light);
+  padding-bottom: 0.5rem;
+}
+.rules-section h3 {
+  font-size: 1.05rem;
+  color: var(--text);
+  margin-top: 1rem;
+  margin-bottom: 0.35rem;
+}
+.rules-section p {
+  color: var(--text-sec);
+  margin-bottom: 0.5rem;
+}
+.rules-list {
+  list-style: none;
+  padding: 0;
+}
+.rules-list > li {
+  position: relative;
+  padding: 0.6rem 0 0.6rem 1.25rem;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-sec);
+}
+.rules-list > li:last-child { border-bottom: none; }
+.rules-list > li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+.rules-list ul {
+  margin-top: 0.25rem;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+.rules-list ul li {
+  padding: 0.15rem 0;
+  color: var(--text-sec);
+}
+.trip-card {
+  background: var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+}
+.trip-card strong {
+  color: var(--primary);
+}
+.trip-card p {
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+}
+.team-template {
+  background: var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+}
+.team-template table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.team-template th,
+.team-template td {
+  padding: 0.35rem 0.6rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+.team-template th {
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.95rem;
+}
+.team-template p {
+  font-size: 0.9rem;
+  color: var(--text-sec);
+}
+
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 600px) {
   .container { padding: 1rem; }
