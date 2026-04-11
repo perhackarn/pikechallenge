@@ -47,7 +47,6 @@
   function updateSpeciesUI() {
     const isPike = pikeRadio.checked;
     otherGroup.classList.toggle('hidden', isPike);
-    weightGroup.style.display = isPike ? '' : 'none';
     if (isPike) {
       document.getElementById('speciesName').value = '';
     }
@@ -70,7 +69,7 @@
     const isPike = pikeRadio.checked;
     const speciesName = isPike ? 'Gädda' : document.getElementById('speciesName').value.trim();
     const lengthCm = parseFloat(document.getElementById('lengthCm').value);
-    const weightGrams = isPike ? parseInt(document.getElementById('weightGrams').value) || 0 : 0;
+    const weightGrams = parseInt(document.getElementById('weightGrams').value) || 0;
 
     if (!isPike && !speciesName) {
       showToast('Ange vilken art', 'warning');
@@ -158,7 +157,7 @@
         <td>${escapeHtml(c.memberName)}</td>
         <td><span class="badge ${c.isPike ? 'badge-pike' : 'badge-other'}">${escapeHtml(c.speciesName)}</span></td>
         <td><strong>${c.lengthCm} cm</strong></td>
-        <td>${c.isPike && c.weightGrams ? c.weightGrams + ' g' : '-'}</td>
+        <td>${c.weightGrams ? c.weightGrams + ' g' : '-'}</td>
         <td>
           <div style="display:flex;gap:0.25rem;flex-wrap:nowrap;">
             <button class="delete-btn catch-edit" data-id="${c.id}" title="Redigera">&#9998;</button>
@@ -209,6 +208,12 @@
       var bestOpo = opoResults.filter(function(r) { return r.total > 0; });
       document.getElementById('statOpo').textContent = bestOpo.length > 0 ? bestOpo[0].total : 0;
     } catch (e) { console.error('1+1 error:', e); }
+
+    // Årets största fisk
+    try {
+      var bigFish = calculateStorstFisk(catches);
+      document.getElementById('statBigFish').textContent = bigFish.length > 0 ? bigFish[0].weightGrams : '–';
+    } catch (e) { console.error('Största fisk error:', e); }
   }
 
   function escapeHtml(text) {
@@ -230,7 +235,6 @@
   function updateEditSpeciesUI() {
     const isPike = editPike.checked;
     editOtherGroup.classList.toggle('hidden', isPike);
-    editWeightGroup.style.display = isPike ? '' : 'none';
   }
   editPike.addEventListener('change', updateEditSpeciesUI);
   editOther.addEventListener('change', updateEditSpeciesUI);
@@ -273,7 +277,7 @@
     const isPike = editPike.checked;
     const speciesName = isPike ? 'Gädda' : document.getElementById('editSpeciesName').value.trim();
     const lengthCm = parseFloat(document.getElementById('editLength').value);
-    const weightGrams = isPike ? parseInt(document.getElementById('editWeight').value) || 0 : 0;
+    const weightGrams = parseInt(document.getElementById('editWeight').value) || 0;
 
     if (!member) { showToast('Välj en lagmedlem', 'warning'); return; }
     if (!isPike && !speciesName) { showToast('Ange vilken art', 'warning'); return; }

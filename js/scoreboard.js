@@ -36,6 +36,7 @@
     renderCentimeterjakten(byTeam);
     render700(byTeam);
     renderStorstGadda(allCatches);
+    renderStorstFisk(allCatches);
     renderOnePlusOne(allCatches);
   });
 
@@ -171,6 +172,30 @@
         <div class="rank-info">
           <div class="rank-name">${escapeHtml(c.memberName)}</div>
           <div class="rank-detail">${escapeHtml(c.teamName)} · ${c.lengthCm} cm · ${formatTime(c.timestamp)}</div>
+        </div>
+        <div class="rank-score">${c.weightGrams}<small> g</small></div>
+      </li>
+    `).join('');
+  }
+
+  // ===========================================
+  // ÅRETS STÖRSTA FISK
+  // ===========================================
+  function renderStorstFisk(allCatches) {
+    const list = document.getElementById('biggestFishRankList');
+    const results = calculateStorstFisk(allCatches);
+
+    if (results.length === 0) {
+      list.innerHTML = '<li class="no-data">Inga fiskar registrerade med vikt ännu</li>';
+      return;
+    }
+
+    list.innerHTML = results.slice(0, 20).map((c, i) => `
+      <li class="rank-item">
+        <div class="rank-position">${i + 1}</div>
+        <div class="rank-info">
+          <div class="rank-name">${escapeHtml(c.memberName)}</div>
+          <div class="rank-detail">${escapeHtml(c.teamName)} · <span class="badge ${c.isPike ? 'badge-pike' : 'badge-other'}">${escapeHtml(c.speciesName)}</span> · ${c.lengthCm} cm · ${formatTime(c.timestamp)}</div>
         </div>
         <div class="rank-score">${c.weightGrams}<small> g</small></div>
       </li>

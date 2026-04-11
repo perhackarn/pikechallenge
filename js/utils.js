@@ -96,6 +96,16 @@ function calculateStorstGadda(catches) {
 }
 
 /**
+ * Årets största fisk:
+ * Tyngsta enskilda fisken oavsett art (gram), sorterat fallande.
+ */
+function calculateStorstFisk(catches) {
+  return catches
+    .filter(c => c.weightGrams > 0)
+    .sort((a, b) => b.weightGrams - a.weightGrams);
+}
+
+/**
  * 1+1:
  * Per deltagare: längsta gädda + längsta annan art = total.
  */
