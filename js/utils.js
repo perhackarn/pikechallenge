@@ -43,14 +43,15 @@ function formatTime(timestamp) {
  * Resterande = alla fiskar som INTE redan räknas bland topp-7-gäddorna.
  */
 function calculateCentimeterjakten(catches) {
-  const pike = catches
+  const eligible = catches.filter(c => !c.isForeign);
+  const pike = eligible
     .filter(c => c.isPike)
     .sort((a, b) => b.lengthCm - a.lengthCm);
 
   const topPike = pike.slice(0, 7);
   const topPikeIds = new Set(topPike.map(c => c.id));
 
-  const remaining = catches
+  const remaining = eligible
     .filter(c => !c.isPike)
     .sort((a, b) => b.lengthCm - a.lengthCm);
   const topOther = remaining.slice(0, 4);
@@ -76,7 +77,7 @@ function calculateCentimeterjakten(catches) {
  */
 function calculate700(catches) {
   const pike = catches
-    .filter(c => c.isPike)
+    .filter(c => c.isPike && !c.isForeign)
     .sort((a, b) => b.lengthCm - a.lengthCm)
     .slice(0, 7);
 
@@ -91,7 +92,7 @@ function calculate700(catches) {
  */
 function calculateStorstGadda(catches) {
   return catches
-    .filter(c => c.isPike && c.weightGrams > 0)
+    .filter(c => c.isPike && !c.isForeign && c.weightGrams > 0)
     .sort((a, b) => b.weightGrams - a.weightGrams);
 }
 
@@ -120,8 +121,8 @@ function calculateOnePlusOne(catches) {
         pike: [], other: []
       };
     }
-    if (c.isPike) members[c.memberId].pike.push(c);
-    else members[c.memberId].other.push(c);
+    if (c.isPike && !c.isForeign) members[c.memberId].pike.push(c);
+    else if (!c.isPike && !c.isForeign) members[c.memberId].other.push(c);
   });
 
   return Object.values(members)

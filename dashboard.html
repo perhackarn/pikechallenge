@@ -97,6 +97,27 @@
           </div>
         </div>
 
+        <div class="form-group">
+          <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
+            <input type="checkbox" id="isForeignCheck">
+            Fångad utomlands
+          </label>
+          <small style="color:var(--muted)">Utlandsfisk räknas endast i tävlingen Största fisk</small>
+        </div>
+        <div class="form-group hidden" id="countryGroup">
+          <label for="countryName">Land</label>
+          <input type="text" id="countryName" placeholder="T.ex. Norge, Finland..." list="countryList">
+          <datalist id="countryList">
+            <option value="Norge">
+            <option value="Finland">
+            <option value="Danmark">
+            <option value="Estland">
+            <option value="Lettland">
+            <option value="Litauen">
+            <option value="Polen">
+          </datalist>
+        </div>
+
         <button class="btn btn-success btn-full" type="submit">Registrera fångst</button>
       </form>
     </div>
@@ -116,6 +137,7 @@
               <th>Art</th>
               <th>Längd</th>
               <th>Vikt</th>
+              <th>Land</th>
               <th></th>
             </tr>
           </thead>
@@ -159,6 +181,16 @@
             <label for="editWeight">Vikt (gram)</label>
             <input type="number" id="editWeight" min="1" max="30000" step="1">
           </div>
+        </div>
+        <div class="form-group">
+          <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
+            <input type="checkbox" id="editIsForeignCheck">
+            Fångad utomlands
+          </label>
+        </div>
+        <div class="form-group hidden" id="editCountryGroup">
+          <label for="editCountryName">Land</label>
+          <input type="text" id="editCountryName" placeholder="T.ex. Norge, Finland..." list="countryList">
         </div>
         <div class="modal-actions">
           <button type="button" class="btn btn-outline" id="cancelEditBtn">Avbryt</button>

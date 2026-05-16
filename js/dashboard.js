@@ -55,6 +55,14 @@
   otherRadio.addEventListener('change', updateSpeciesUI);
   updateSpeciesUI();
 
+  // Toggle utomlands
+  const isForeignCheck = document.getElementById('isForeignCheck');
+  const countryGroup = document.getElementById('countryGroup');
+  isForeignCheck.addEventListener('change', () => {
+    countryGroup.classList.toggle('hidden', !isForeignCheck.checked);
+    if (!isForeignCheck.checked) document.getElementById('countryName').value = '';
+  });
+
   // Registrera fångst
   const catchForm = document.getElementById('catchForm');
   catchForm.addEventListener('submit', async (e) => {
@@ -70,6 +78,8 @@
     const speciesName = isPike ? 'Gädda' : document.getElementById('speciesName').value.trim();
     const lengthCm = parseFloat(document.getElementById('lengthCm').value);
     const weightGrams = parseInt(document.getElementById('weightGrams').value) || 0;
+    const isForeign = isForeignCheck.checked;
+    const country = isForeign ? (document.getElementById('countryName').value.trim() || 'Utlandet') : 'Sverige';
 
     if (!isPike && !speciesName) {
       showToast('Ange vilken art', 'warning');
@@ -91,12 +101,15 @@
         speciesName: speciesName,
         lengthCm: lengthCm,
         weightGrams: weightGrams,
+        isForeign: isForeign,
+        country: country,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
       });
       showToast(`${speciesName} ${lengthCm} cm registrerad!`, 'success');
       catchForm.reset();
       pikeRadio.checked = true;
       updateSpeciesUI();
+      countryGroup.classList.add('hidden');
     } catch (err) {
       console.error(err);
       showToast('Kunde inte spara: ' + err.message, 'error');
@@ -158,6 +171,7 @@
         <td><span class="badge ${c.isPike ? 'badge-pike' : 'badge-other'}">${escapeHtml(c.speciesName)}</span></td>
         <td><strong>${c.lengthCm} cm</strong></td>
         <td>${c.weightGrams ? c.weightGrams + ' g' : '-'}</td>
+        <td>${c.isForeign ? `<span class="badge badge-other" title="Räknas endast i Största fisk">${escapeHtml(c.country || 'Utlandet')}</span>` : 'Sverige'}</td>
         <td>
           <div style="display:flex;gap:0.25rem;flex-wrap:nowrap;">
             <button class="delete-btn catch-edit" data-id="${c.id}" title="Redigera">&#9998;</button>
@@ -239,6 +253,13 @@
   editPike.addEventListener('change', updateEditSpeciesUI);
   editOther.addEventListener('change', updateEditSpeciesUI);
 
+  const editIsForeignCheck = document.getElementById('editIsForeignCheck');
+  const editCountryGroup = document.getElementById('editCountryGroup');
+  editIsForeignCheck.addEventListener('change', () => {
+    editCountryGroup.classList.toggle('hidden', !editIsForeignCheck.checked);
+    if (!editIsForeignCheck.checked) document.getElementById('editCountryName').value = '';
+  });
+
   document.getElementById('cancelEditBtn').addEventListener('click', () => {
     editModal.classList.remove('active');
   });
@@ -265,6 +286,10 @@
 
     document.getElementById('editLength').value = c.lengthCm;
     document.getElementById('editWeight').value = c.weightGrams || '';
+    const foreign = !!c.isForeign;
+    editIsForeignCheck.checked = foreign;
+    editCountryGroup.classList.toggle('hidden', !foreign);
+    document.getElementById('editCountryName').value = (foreign && c.country && c.country !== 'Sverige') ? c.country : '';
     editModal.classList.add('active');
   }
 
@@ -278,6 +303,8 @@
     const speciesName = isPike ? 'Gädda' : document.getElementById('editSpeciesName').value.trim();
     const lengthCm = parseFloat(document.getElementById('editLength').value);
     const weightGrams = parseInt(document.getElementById('editWeight').value) || 0;
+    const isForeign = editIsForeignCheck.checked;
+    const country = isForeign ? (document.getElementById('editCountryName').value.trim() || 'Utlandet') : 'Sverige';
 
     if (!member) { showToast('Välj en lagmedlem', 'warning'); return; }
     if (!isPike && !speciesName) { showToast('Ange vilken art', 'warning'); return; }
@@ -291,7 +318,9 @@
         isPike: isPike,
         speciesName: speciesName,
         lengthCm: lengthCm,
-        weightGrams: weightGrams
+        weightGrams: weightGrams,
+        isForeign: isForeign,
+        country: country
       });
       editModal.classList.remove('active');
       showToast('Fångst uppdaterad!', 'success');
