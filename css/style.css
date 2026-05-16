@@ -157,7 +157,7 @@ a:hover { text-decoration: underline; }
   margin-bottom: 0.3rem;
   color: var(--text-sec);
 }
-.form-group input,
+.form-group input:not([type="checkbox"]),
 .form-group select,
 .form-group textarea {
   width: 100%;
