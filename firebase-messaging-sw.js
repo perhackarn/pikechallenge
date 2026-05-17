@@ -16,14 +16,14 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
-// Hanterar bakgrundsnotiser
+// Hanterar bakgrundsnotiser (data-only meddelanden)
 messaging.onBackgroundMessage(function (payload) {
-  const title = payload.notification.title || 'Pike Challenge';
+  const title = (payload.data && payload.data.title) || 'Pike Challenge';
   const options = {
-    body: payload.notification.body || '',
-    icon: '/icon-192.png',
-    badge: '/icon-192.png',
-    data: { url: payload.data && payload.data.url ? payload.data.url : '/scoreboard.html' }
+    body: (payload.data && payload.data.body) || '',
+    icon: (payload.data && payload.data.icon) || '/icons/icon-192.png',
+    badge: '/icons/icon-192.png',
+    data: { url: (payload.data && payload.data.url) ? payload.data.url : '/scoreboard.html' }
   };
   self.registration.showNotification(title, options);
 
