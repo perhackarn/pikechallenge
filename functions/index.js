@@ -40,13 +40,17 @@ exports.onNewCatch = functions.firestore
   if (tokens.length === 0) return;
 
   // Skicka till alla tokens (max 500 åt gången)
-  // Data-only meddelande – service workern sköter visningen (undviker dubbletter)
+  // notification-fältet krävs för bakgrundsleverans via Web Push.
+  // webpush.notification utelämnas – annars visas notisen två gånger.
   const message = {
+    notification: {
+      title: title,
+      body: body,
+    },
     data: {
       title: title,
       body: body,
-      url: "/scoreboard.html",
-      icon: "/icons/icon-192.png",
+      url: "scoreboard.html",
     },
     webpush: {
       headers: {

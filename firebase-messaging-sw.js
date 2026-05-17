@@ -16,14 +16,16 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
-// Hanterar bakgrundsnotiser (data-only meddelanden)
+// Hanterar bakgrundsnotiser – onBackgroundMessage ersätter FCM:s standardvisning (undviker dubletter)
 messaging.onBackgroundMessage(function (payload) {
-  const title = (payload.data && payload.data.title) || 'Pike Challenge';
+  const title = (payload.data && payload.data.title) || (payload.notification && payload.notification.title) || 'Pike Challenge';
+  const body = (payload.data && payload.data.body) || (payload.notification && payload.notification.body) || '';
+  const url = (payload.data && payload.data.url) || 'scoreboard.html';
   const options = {
-    body: (payload.data && payload.data.body) || '',
-    icon: (payload.data && payload.data.icon) || '/icons/icon-192.png',
+    body: body,
+    icon: '/icons/icon-192.png',
     badge: '/icons/icon-192.png',
-    data: { url: (payload.data && payload.data.url) ? payload.data.url : '/scoreboard.html' }
+    data: { url: url }
   };
   self.registration.showNotification(title, options);
 
